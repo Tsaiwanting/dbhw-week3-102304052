@@ -1,43 +1,82 @@
 function Node(data) {
   this.data = data;
   this.next = null;
-}
+};
 
 function SinglyLinkedList() {
   this.head = null;
   this.tail = null;
   this.numberOfValues = 0;
-}
+};
 
 SinglyLinkedList.prototype.add = function(data) {
   var node = new Node(data);
   if(!this.head) {
-    //TODO
-  } else {
-    //TODO
+    this.head = node;
+    this.tail = node;
   }
-
+  else {
+    this.tail.next = node;
+    this.tail = node;
+  }
+  this.numberOfValues++;
 };
 
 SinglyLinkedList.prototype.remove = function(data) {
   var previous = this.head;
   var current = this.head;
-  //TODO
+  while(current) {
+    if(current.data === data) {
+      if(current === this.head) {
+        this.head = this.head.next;
+      }
+      if(current === this.tail) {
+        this.tail = previous;
+      }
+      else {
+        previous.next = current.next;
+      }
+      this.numberOfValues--;
+    }
+    else {
+      previous = current;
+    }
+    current = current.next;
+  }
 };
 
 SinglyLinkedList.prototype.insertAfter = function(data, toNodeData) {
   var current = this.head;
-  //TODO
+  while(current) {
+    if(current.data === toNodeData) {
+      var node = new Node(data);
+      if(current === this.tail) {
+        this.tail.next = node;
+        this.tail = node;
+      }
+      else {
+        node.next = current.next;
+        current.next = node;
+      }
+      this.numberOfValues++;
+    }
+    current = current.next;
+  }
 };
 
 SinglyLinkedList.prototype.length = function() {
-  //TODO
+  return this.numberOfValues;
 };
 
 SinglyLinkedList.prototype.print = function() {
-  //TODO
+  var string = '';
+  var current = this.head;
+  while(current) {
+    string += current.data + " ";
+    current = current.next;
+  }
+  return string.trim();
 };
-
 
 /*
 singlyLinkedList.print(); // => ''
@@ -73,7 +112,6 @@ console.log('length is 7:', singlyLinkedList.length()); // => 7
 singlyLinkedList.print(); // => 12 13 14 15 16 17 18
 console.log('length is 7:', singlyLinkedList.length()); // => 7
 */
-
 
 module.exports = {
   SinglyLinkedList : SinglyLinkedList,
